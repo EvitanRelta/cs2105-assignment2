@@ -1,7 +1,6 @@
 import struct
 import zlib
 from dataclasses import dataclass
-from tabnanny import check
 from typing import ClassVar
 
 
