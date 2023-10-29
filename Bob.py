@@ -19,7 +19,7 @@ def main() -> None:
         s.bind(unreli_net_address)
 
         while True:
-            data, _ = s.recvfrom(MAX_PAYLOAD_BYTES)
+            data, addr = s.recvfrom(MAX_PAYLOAD_BYTES)
             segment = Segment.decode(data)
 
             if (
@@ -30,7 +30,7 @@ def main() -> None:
                 latest_received_sequence_num = segment.header.sequence_num  # type: ignore
 
             ack = Segment.create_ack(ack_num=segment.header.sequence_num)
-            s.sendto(ack.encode(), unreli_net_address)
+            s.sendto(ack.encode(), addr)
 
 
 def get_unreli_net_port() -> int:
