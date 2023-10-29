@@ -35,14 +35,9 @@ def get_unreli_net_port() -> int:
     return int(sys.argv[1])
 
 
-if __name__ == "__main__":
-    main()
-
-
 # ==============================================================================
 #                Custom dataclasses (shared between Alice & Bob)
 # ==============================================================================
-
 import struct
 import zlib
 from dataclasses import dataclass
@@ -140,3 +135,11 @@ class Segment:
         checksum_32bits = zlib.crc32(packet)
         checksum_16bits = checksum_32bits & 0xFFFF
         return checksum_16bits
+
+
+# ==============================================================================
+#                               End of dataclasses
+# ==============================================================================
+
+if __name__ == "__main__":
+    main()
