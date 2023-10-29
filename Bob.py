@@ -9,12 +9,12 @@ MAX_INPUT_BYTES = 5000
 
 
 def main() -> None:
-    unreli_net_address = (HOST_IP, get_unreli_net_port())
+    recv_address = (HOST_IP, get_recv_port())
     latest_received_sequence_num: Literal[0, 1] = 1
 
     # Connect to UnreliNET via UDP.
     with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as s:
-        s.bind(unreli_net_address)
+        s.bind(recv_address)
 
         while True:
             data, addr = s.recvfrom(MAX_PAYLOAD_BYTES)
@@ -31,7 +31,7 @@ def main() -> None:
             s.sendto(ack.encode(), addr)
 
 
-def get_unreli_net_port() -> int:
+def get_recv_port() -> int:
     return int(sys.argv[1])
 
 
