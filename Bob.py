@@ -36,5 +36,5 @@ def get_unreli_net_port() -> int:
     return int(sys.argv[1])
 
 
-if __name__ == "main":
+if __name__ == "__main__":
     main()

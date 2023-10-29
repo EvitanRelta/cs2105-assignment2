@@ -57,5 +57,5 @@ def segment_data(data: bytes) -> list[Segment]:
     ]
 
 
-if __name__ == "main":
+if __name__ == "__main__":
     main()
