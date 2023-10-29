@@ -52,12 +52,12 @@ class Segment:
     data: bytes
 
     def encode(self) -> bytes:
-        checksum = Segment.compute_checksum(self.header.encode() + self.data)
+        checksum = Segment._compute_checksum(self.header.encode() + self.data)
         return self.header.with_checksum(checksum).encode() + self.data
 
     def has_no_bit_error(self) -> bool:
         expected_checksum = self.header.checksum
-        checksum = Segment.compute_checksum(self.header.with_checksum(0).encode() + self.data)
+        checksum = Segment._compute_checksum(self.header.with_checksum(0).encode() + self.data)
         return checksum == expected_checksum
 
     @staticmethod
@@ -68,12 +68,6 @@ class Segment:
             header=Header.decode(header_bytes),
             data=data,
         )
-
-    @staticmethod
-    def compute_checksum(packet: bytes) -> int:
-        checksum_32bits = zlib.crc32(packet)
-        checksum_16bits = checksum_32bits & 0xFFFF
-        return checksum_16bits
 
     @staticmethod
     def create_ack(ack_num: int) -> "Segment":
@@ -95,3 +89,9 @@ class Segment:
             ),
             data=data,
         )
+
+    @staticmethod
+    def _compute_checksum(packet: bytes) -> int:
+        checksum_32bits = zlib.crc32(packet)
+        checksum_16bits = checksum_32bits & 0xFFFF
+        return checksum_16bits
