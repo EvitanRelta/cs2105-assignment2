@@ -12,7 +12,7 @@ MAX_INPUT_BYTES = 5000
 
 def main() -> None:
     unreli_net_address = (HOST_IP, get_unreli_net_port())
-    latest_received_sequence_num: Literal[0, 1] = 0
+    latest_received_sequence_num: Literal[0, 1] = 1
 
     # Connect to UnreliNET via UDP.
     with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as s:
