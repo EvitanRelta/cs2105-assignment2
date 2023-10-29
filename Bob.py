@@ -18,18 +18,19 @@ def main() -> None:
     with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as s:
         s.bind(unreli_net_address)
 
-        data, _ = s.recvfrom(MAX_PAYLOAD_BYTES)
-        segment = Segment.decode(data)
+        while True:
+            data, _ = s.recvfrom(MAX_PAYLOAD_BYTES)
+            segment = Segment.decode(data)
 
-        if (
-            segment.has_no_bit_error()
-            and segment.header.sequence_num != latest_received_sequence_num
-        ):
-            print(segment.data.decode("ascii"))
-            latest_received_sequence_num = segment.header.sequence_num  # type: ignore
+            if (
+                segment.has_no_bit_error()
+                and segment.header.sequence_num != latest_received_sequence_num
+            ):
+                print(segment.data.decode("ascii"))
+                latest_received_sequence_num = segment.header.sequence_num  # type: ignore
 
-        ack = Segment.create_ack(ack_num=segment.header.sequence_num)
-        s.sendto(ack.encode(), unreli_net_address)
+            ack = Segment.create_ack(ack_num=segment.header.sequence_num)
+            s.sendto(ack.encode(), unreli_net_address)
 
 
 def get_unreli_net_port() -> int:
