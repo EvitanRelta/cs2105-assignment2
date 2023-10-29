@@ -15,7 +15,6 @@ def main() -> None:
 
     # Connect to UnreliNET via UDP.
     with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as s:
-        s.bind(unreli_net_address)
         s.settimeout(TIMEOUT_MS / 1000)
 
         for segment in segments:
