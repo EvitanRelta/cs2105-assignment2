@@ -26,7 +26,7 @@ def main() -> None:
                 segment.has_no_bit_error()
                 and segment.header.sequence_num != latest_received_sequence_num
             ):
-                print(segment.data.decode("ascii"))
+                print(segment.data.decode("ascii"), end="")
                 latest_received_sequence_num = segment.header.sequence_num  # type: ignore
 
             ack = Segment.create_ack(ack_num=segment.header.sequence_num)
