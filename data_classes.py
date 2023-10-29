@@ -22,7 +22,7 @@ class Header:
             self.checksum,
         )
 
-    def set_checksum(self, checksum: int) -> "Header":
+    def with_checksum(self, checksum: int) -> "Header":
         return Header(
             sequence_num=self.sequence_num,
             is_ack=self.is_ack,
@@ -53,11 +53,11 @@ class Segment:
 
     def encode(self) -> bytes:
         checksum = Segment.compute_checksum(self.header.encode() + self.data)
-        return self.header.set_checksum(checksum).encode() + self.data
+        return self.header.with_checksum(checksum).encode() + self.data
 
     def has_no_bit_error(self) -> bool:
         expected_checksum = self.header.checksum
-        checksum = Segment.compute_checksum(self.header.set_checksum(0).encode() + self.data)
+        checksum = Segment.compute_checksum(self.header.with_checksum(0).encode() + self.data)
         return checksum == expected_checksum
 
     @staticmethod
